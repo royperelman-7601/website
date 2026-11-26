@@ -154,14 +154,6 @@
 }
 .skill-card:hover { border-color: var(--border-strong); background: var(--surface-hover); }
 
-.card-icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin-bottom: 16px;
-  color: var(--muted);
-  transform: translateZ(40px);
-}
 .skill-card h3 {
   font-size: var(--fs-h3);
   font-weight: 500;
