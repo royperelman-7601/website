@@ -59,6 +59,10 @@ Then open http://localhost:8000. A local server is needed (opening `index.html` 
 
 Rules: build DOM with `textContent` / `createElement` (never `innerHTML`), and no inline `<script>` or `style="..."`, because the Content-Security-Policy blocks them. External scripts are allowed only from `https://cdn.jsdelivr.net/npm/three@0.160.0/build/` (the pinned three.js build). To load anything else, or to upgrade three.js, update the CSP in **three** places: the `<meta>` in `index.html`, the `<meta>` in `404.html`, and the `Content-Security-Policy` header in `render.yaml`.
 
+## Replacing images
+
+Photos and the share image are cached by browsers for up to a day (see `render.yaml`). When you replace `photos/profile.*` or `og-image.png`, bump the `?v=` number on their URLs in `index.html` (the `<picture>` in About, plus `og:image`, `twitter:image` and the JSON-LD `image`), so phones and LinkedIn fetch the new file right away.
+
 ## Publishing
 
 The site is hosted on **Render** as a static site, built from the GitHub repo of the personal account `royperelman-7601` (never a work account):
