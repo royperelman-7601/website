@@ -63,7 +63,7 @@ Rules: build DOM with `textContent` / `createElement` (never `innerHTML`), and n
 
 The site is hosted on **Render** as a static site, built from the GitHub repo of the personal account `royperelman-7601` (never a work account):
 
-- Repo: `royperelman-7601/royperelman-7601.github.io` (public). The repo name is historical; GitHub Pages is turned off.
+- Repo: `royperelman-7601/website` (public). GitHub Pages is turned off; Render is the only host.
 - Render config: `render.yaml` (Blueprint). Service `royperelman`, no build step, publishes the repo root, auto-deploys on every push to `main`.
 - `render.yaml` also sets the HTTP security headers (CSP incl. `frame-ancestors`, `X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS) and cache rules.
 - Every push to `main` updates the live site within a minute or two; Render purges its CDN cache on each deploy.
