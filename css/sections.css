@@ -64,11 +64,18 @@
 .nav-links a:hover { color: var(--text); background: var(--surface); }
 .nav-links a:focus-visible { outline-offset: -2px; }
 
-/* Very narrow phones: drop the RP logo (it only scrolls to top) so all five links fit without scrolling */
-@media (max-width: 420px) {
-  .nav-logo { display: none; }
+/* Phones (≤600px): the full name doesn't fit beside five links, so the nav becomes two rows:
+   name on top, links spread across the full width below (~88px tall in total). */
+@media (max-width: 600px) {
+  .site-nav { height: auto; }
+  .nav-inner { flex-wrap: wrap; row-gap: 0; padding-block: 4px; }
+  .nav-logo { min-height: 36px; font-size: 15px; }
   .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
   .nav-links a { padding: 0 6px; font-size: 13px; }
+  .section { scroll-margin-top: 96px; } /* anchor jumps land below the taller nav */
+}
+@media (max-width: 380px) {
+  .nav-links a { padding: 0 4px; font-size: 12.5px; }
 }
 
 @media (min-width: 601px) {

@@ -147,3 +147,8 @@
 @media (max-width: 420px) {
   .hero-role { font-size: 13.5px; }
 }
+
+/* Phones: the nav is two rows (~89px), so give the hero a little more room on top */
+@media (max-width: 600px) {
+  .hero { padding-top: 112px; }
+}
