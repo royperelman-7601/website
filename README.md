@@ -78,4 +78,6 @@ This repo and the site are public. The email address and the WhatsApp number in 
 ## Licenses
 
 - [three.js](https://threejs.org/) 0.160.0, MIT License, loaded from the jsDelivr CDN at runtime (not vendored in this repo).
+- Skill card icons: [Lucide](https://lucide.dev/) (cloud, activity, terminal, code), ISC License, inlined as SVG.
+- Design polish pass guided by the unslop skill by Damir Sokolovsky ([@heydamir](https://x.com/heydamir)), CC BY 4.0.
 - Everything else is original code for this site.

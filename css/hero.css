@@ -42,8 +42,8 @@
 .hero-name {
   font-size: var(--fs-hero);
   line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
 .hero-roles { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
@@ -97,18 +97,8 @@
   line-height: 1.4;
 }
 
-/* Static fallback when WebGL / three.js is unavailable: soft teal glow on the right */
+/* Static fallback when WebGL / three.js is unavailable: plain background, no glow wash */
 .hero.no-webgl .hero-globe { display: none; }
-.hero.no-webgl::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 75% 50%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 38%),
-    radial-gradient(circle at 75% 50%, var(--accent-soft) 0, transparent 60%);
-}
 
 /* Mobile: globe in the upper part, text anchored at the bottom */
 @media (max-width: 720px) {
@@ -118,11 +108,6 @@
       var(--bg) 10%,
       color-mix(in srgb, var(--bg) 60%, transparent) 60%,
       color-mix(in srgb, var(--bg) 30%, transparent) 100%);
-  }
-  .hero.no-webgl::before {
-    background:
-      radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 40%),
-      radial-gradient(circle at 50% 28%, var(--accent-soft) 0, transparent 70%);
   }
   .hero-hint { bottom: 20px; font-size: 12px; }
 }

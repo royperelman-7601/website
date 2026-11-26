@@ -11,3 +11,6 @@ dist/
 demo/
 SPEC.md
 PLAN.md
+
+# Local Claude Code config and project skills (e.g. unslop) - never pushed or published
+.claude/

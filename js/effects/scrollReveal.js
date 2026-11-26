@@ -1,6 +1,6 @@
 // Scroll reveal (agent B). Adds .is-in once to each [data-reveal] when it enters the viewport,
 // with a small stagger for elements revealed in the same batch. Also toggles .is-scrolled on [data-nav].
-const STAGGER_MS = 80;
+const STAGGER_MS = 50;
 const MAX_DELAY_MS = 240;
 
 export function initScrollReveal(root, env) {
