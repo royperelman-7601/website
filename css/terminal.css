@@ -1,0 +1,136 @@
+/* Terminal easter egg (agent C). DOM is built by js/effects/terminal.js. All classes use the term- prefix. */
+
+.term-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 100vh;               /* fallback */
+  height: 100dvh;              /* JS overrides with visualViewport height while open (on-screen keyboard) */
+  z-index: var(--z-terminal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  overscroll-behavior: contain;
+}
+.term-overlay[hidden] { display: none; }
+
+.term-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(720px, 100%);
+  height: min(460px, 100%);
+  min-height: 0;
+  overflow: hidden;
+  background: #05080c;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(45, 212, 191, 0.1);
+  font-family: var(--font-mono);
+  animation: term-pop .25s var(--ease-out);
+}
+@keyframes term-pop {
+  from { transform: scale(.96); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* Title bar */
+.term-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 14px;
+  background: #0b1117;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+.term-dots { display: flex; gap: 8px; }
+.term-dot { width: 12px; height: 12px; border-radius: 50%; }
+.term-dot-red { background: #ff5f57; }
+.term-dot-yellow { background: #febc2e; }
+.term-dot-green { background: #28c840; }
+.term-title {
+  flex: 1;
+  min-width: 0;
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.term-close {
+  flex: none;
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+.term-close:hover { color: var(--text); border-color: var(--border); background: var(--surface-hover); }
+
+/* Output log: the only scrolling part */
+.term-log {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px 16px 4px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.term-log:focus-visible { outline-offset: -2px; border-radius: 0; }
+.term-out { white-space: pre-wrap; margin-bottom: 8px; }
+.term-out b { color: var(--accent); font-weight: 500; }
+.term-echo { white-space: pre-wrap; color: var(--text); margin-bottom: 4px; }
+.term-echo-ps { color: var(--accent); }
+.term-link-row { white-space: pre; }
+.term-link { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.term-link:hover { color: #5eead4; }
+
+/* Prompt + input pinned to the bottom of the panel */
+.term-form {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 14px;
+}
+.term-ps { flex: none; color: var(--accent); font-size: 14px; white-space: nowrap; }
+.term-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  caret-color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 16px;             /* >= 16px prevents iOS zoom on focus */
+}
+.term-form:focus-within { box-shadow: inset 0 1px 0 var(--border); }
+
+/* Mobile: near full-screen sheet */
+@media (max-width: 720px) {
+  .term-overlay { padding: 8px; align-items: stretch; }
+  .term-panel { height: 100%; }
+  .term-log { font-size: 13px; padding: 12px 12px 4px; }
+  .term-form { padding: 8px 12px 12px; }
+  .term-ps { font-size: 13px; }
+}
+
+/* No animation under reduced motion */
+.term-no-motion .term-panel { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .term-panel { animation: none; }
+}

@@ -1,0 +1,149 @@
+/* Hero (agent A): full-viewport intro with the 3D globe behind the text. Ported from demo/effects-demo.html. */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: 96px 112px;     /* room for the fixed nav (~64px) on top and the hint at the bottom */
+  overflow: hidden;
+  isolation: isolate;            /* keep the canvas/overlay layers inside the hero */
+}
+
+/* Globe canvas fills the hero behind everything; fades in once the first frame is drawn */
+.hero-globe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.hero-globe.is-ready { opacity: 1; }
+
+/* Readability overlay: solid behind the text on the left, clear over the globe on the right */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 85%, transparent) 35%,
+    transparent 70%);
+}
+
+.hero-content { position: relative; }
+.hero-content > * { max-width: 640px; }
+
+.hero-name {
+  font-size: var(--fs-hero);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero-roles { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
+.hero-role {
+  color: var(--accent);          /* all role lines in the accent color (requested) */
+  font-size: clamp(15px, 1.8vw, 19px);
+  font-weight: 500;
+  line-height: 1.5;
+  min-height: 1.5em;
+}
+
+.hero-pitch { color: var(--muted); margin-top: 20px; max-width: 480px; }
+.hero .btn-row { margin-top: 32px; }
+
+/* Terminal hint: a real button, styled as a quiet centered line at the bottom (kept on touch devices too) */
+.hero-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 2 * var(--gutter));
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  transition: color .2s, border-color .2s, background-color .2s;
+}
+.hero-hint:hover { color: var(--text); border-color: var(--border); background: var(--surface); }
+.hero-hint:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  color: var(--text);
+  background: var(--surface);
+}
+.hero-hint kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Static fallback when WebGL / three.js is unavailable: soft teal glow on the right */
+.hero.no-webgl .hero-globe { display: none; }
+.hero.no-webgl::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 75% 50%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 38%),
+    radial-gradient(circle at 75% 50%, var(--accent-soft) 0, transparent 60%);
+}
+
+/* Mobile: globe in the upper part, text anchored at the bottom */
+@media (max-width: 720px) {
+  .hero { align-items: flex-end; padding-block: 88px 104px; }
+  .hero::after {
+    background: linear-gradient(0deg,
+      var(--bg) 10%,
+      color-mix(in srgb, var(--bg) 60%, transparent) 60%,
+      color-mix(in srgb, var(--bg) 30%, transparent) 100%);
+  }
+  .hero.no-webgl::before {
+    background:
+      radial-gradient(circle at 50% 28%, color-mix(in srgb, var(--accent) 22%, transparent) 0, transparent 40%),
+      radial-gradient(circle at 50% 28%, var(--accent-soft) 0, transparent 70%);
+  }
+  .hero-hint { bottom: 20px; font-size: 12px; }
+}
+
+/* ---- Word reveal (js/effects/wordReveal.js) ----
+   JS wraps each word in .wr-word (the mask) > span (slides up from below). Without JS the text is plain. */
+.wr-line { display: inline; }
+.wr-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+.wr-word > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: wr-rise var(--dur) var(--ease-out) forwards;
+}
+@keyframes wr-rise { to { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wr-word > span { transform: none; animation: none; }
+  .hero-globe { transition: none; }
+}
+
+/* Narrow phones: slightly smaller role lines so they wrap less (lead QA fix) */
+@media (max-width: 420px) {
+  .hero-role { font-size: 13.5px; }
+}
