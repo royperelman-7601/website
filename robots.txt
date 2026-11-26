@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://royperelman-7601.github.io/sitemap.xml
+Sitemap: https://royperelman.onrender.com/sitemap.xml

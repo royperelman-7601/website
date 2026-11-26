@@ -1,10 +1,10 @@
-# royperelman-7601.github.io
+# Roy Perelman · personal website
 
 Personal profile site of Roy Perelman (SRE Engineer, CS & Economics student at Tel Aviv University), aimed at recruiters and hiring managers for SRE / DevOps / Cloud roles.
 
-Live at **https://royperelman-7601.github.io/**
+Live at **https://royperelman.onrender.com/** (hosted on Render).
 
-It is a plain static site: HTML, CSS and vanilla JavaScript ES modules. There is no npm, no build step and no dependencies to install. GitHub Pages serves the files exactly as they are in the repo.
+It is a plain static site: HTML, CSS and vanilla JavaScript ES modules. There is no npm, no build step and no dependencies to install. Render serves the files exactly as they are in the repo.
 
 ## Folder structure
 
@@ -57,15 +57,17 @@ Then open http://localhost:8000. A local server is needed (opening `index.html` 
 2. Import it in `js/main.js` and add it to the `effects` list. Each effect runs in its own `try/catch`, so a failing effect never breaks the rest of the page.
 3. Put its styles in a CSS file under `css/` and link it in the `<head>`.
 
-Rules: build DOM with `textContent` / `createElement` (never `innerHTML`), and no inline `<script>` or `style="..."`, because the Content-Security-Policy blocks them. External scripts are allowed only from `https://cdn.jsdelivr.net/npm/three@0.160.0/build/` (the pinned three.js build). To load anything else, or to upgrade three.js, update the CSP `<meta>` in `index.html` and `404.html`.
+Rules: build DOM with `textContent` / `createElement` (never `innerHTML`), and no inline `<script>` or `style="..."`, because the Content-Security-Policy blocks them. External scripts are allowed only from `https://cdn.jsdelivr.net/npm/three@0.160.0/build/` (the pinned three.js build). To load anything else, or to upgrade three.js, update the CSP in **three** places: the `<meta>` in `index.html`, the `<meta>` in `404.html`, and the `Content-Security-Policy` header in `render.yaml`.
 
 ## Publishing
 
-The site is published with GitHub Pages from the personal account `royperelman-7601` (never a work account):
+The site is hosted on **Render** as a static site, built from the GitHub repo of the personal account `royperelman-7601` (never a work account):
 
-- Repo: `royperelman-7601/royperelman-7601.github.io` (public).
-- Pages source: **Deploy from a branch**, branch `main`, folder `/ (root)`.
-- Every push to `main` updates the live site within a minute or two. No GitHub Actions are needed.
+- Repo: `royperelman-7601/royperelman-7601.github.io` (public). The repo name is historical; GitHub Pages is turned off.
+- Render config: `render.yaml` (Blueprint). Service `royperelman`, no build step, publishes the repo root, auto-deploys on every push to `main`.
+- `render.yaml` also sets the HTTP security headers (CSP incl. `frame-ancestors`, `X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS) and cache rules.
+- Every push to `main` updates the live site within a minute or two; Render purges its CDN cache on each deploy.
+- Everything at the repo root is publicly served (including this README and `render.yaml`), so never commit secrets or private notes here.
 
 `demo/`, `SPEC.md` and `PLAN.md` are listed in `.gitignore`, so they stay on your machine and are never pushed or published.
 
